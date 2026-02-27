@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yekloveguard/model/yekmodel.dart';
 
 class YekController extends GetxController {
-  var yekData = <String, List<String>>{}.obs;
-  var surnames = <String>[].obs;
+
+  
   final TextEditingController lover1Controller = TextEditingController();
   final TextEditingController lover2Controller = TextEditingController();
   var lover1 = "".obs;
@@ -15,6 +16,12 @@ class YekController extends GetxController {
   var result = "".obs;
   int _selectedIndex = 0;
   int get selectedIndex => _selectedIndex;
+  final ScrollController _scrollController = ScrollController();
+  ScrollController get scrollController => _scrollController;
+ List<YekModel?> _allyekdata = [];
+  List<YekModel?> get allyekdata => _allyekdata;
+  List<String> surnames = [];
+Map<String, String> surnameToYek = {};
 
   bool? isDangerous;
 
@@ -27,6 +34,11 @@ class YekController extends GetxController {
   void setselectednavindex({required int index}) {
     _selectedIndex = index;
     update();
+    _scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
 
   void reset() {
@@ -37,31 +49,30 @@ class YekController extends GetxController {
     result.value = "";
   }
 
-  Future<void> loadJson() async {
-    final response = await rootBundle.loadString('assets/yek_data.json');
+ 
 
-    final Map<String, dynamic> data = Map<String, dynamic>.from(
-      json.decode(response),
-    );
+Future<void> loadJson() async {
+  final response =
+      await rootBundle.loadString('assets/yek_converted.json');
 
-    yekData.value = data.map(
-      (String key, dynamic value) =>
-          MapEntry(key, List<String>.from(value as List)),
-    );
+  _allyekdata = yekModelFromJson(response);
 
-    surnames.value = yekData.value.values.expand((element) => element).toList();
-  }
+  surnames.clear();
+  surnameToYek.clear();
 
-  String? getYek(String surname) {
-    surname = surname.trim().toUpperCase();
+  for (var yek in _allyekdata) {
+    surnames.addAll(yek!.surnames);
 
-    for (var entry in yekData.entries) {
-      if (entry.value.contains(surname)) {
-        return entry.key;
-      }
+    /// Create fast lookup map
+    for (var surname in yek.surnames) {
+      surnameToYek[surname.toUpperCase()] = yek.yekname;
     }
-    return null;
   }
+}
+
+String? getYek(String surname) {
+  return surnameToYek[surname.trim().toUpperCase()];
+}
 
   void checkCompatibility(BuildContext context) async {
     final yek1 = getYek(lover1Controller.text);

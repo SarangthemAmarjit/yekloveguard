@@ -26,48 +26,58 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
 
     return GetBuilder<YekController>(
       builder: (_) {
-        return SafeArea(
-          child: ykcon.isDangerous != null
-              ? ykcon.isDangerous!
-                    ? const IncompatibleResultPage()
-                    : const CompatibleResultPage()
-              : Column(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 32),
-                            _buildHeaderIcon(),
-                            const SizedBox(height: 24),
-                            _buildHeaderText(isDark),
-                            const SizedBox(height: 40),
-                            _buildSurnameInput(
-                              label: "Partner 1 Surname",
-                              hint: "Nangi yumnak Mensanlo",
-                              icon: Icons.person_outline,
-                              isDark: isDark,
-                              controller: ykcon.lover1Controller,
-                            ),
-                            _buildDivider(),
-                            _buildSurnameInput(
-                              label: "Partner 2 Surname",
-                              hint: "Noi Sai gi Yumnak Mensanlo",
-                              icon: Icons.person_3_rounded,
-                              isDark: isDark,
-                              controller: ykcon.lover2Controller,
-                            ),
-                            const SizedBox(height: 40),
-                            _buildInfoBox(isDark),
-                            const SizedBox(height: 40),
-                          ],
-                        ),
+        return Container(
+          height: MediaQuery.of(context).size.height,
+
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/bg.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: SafeArea(
+            child: ykcon.isDangerous != null
+                ? ykcon.isDangerous!
+                      ? IncompatibleResultPage()
+                      : const CompatibleResultPage()
+                : SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          Column(
+                            children: [
+                              const SizedBox(height: 32),
+                              _buildHeaderIcon(),
+                              const SizedBox(height: 24),
+                              _buildHeaderText(isDark),
+                              const SizedBox(height: 40),
+                              _buildSurnameInput(
+                                label: "Partner 1 Surname",
+                                hint: "Nangi yumnak Mensanlo",
+                                icon: Icons.person_outline,
+                                isDark: isDark,
+                                controller: ykcon.lover1Controller,
+                              ),
+                              _buildDivider(),
+                              _buildSurnameInput(
+                                label: "Partner 2 Surname",
+                                hint: "Noi Sai gi Yumnak Mensanlo",
+                                icon: Icons.person_3_rounded,
+                                isDark: isDark,
+                                controller: ykcon.lover2Controller,
+                              ),
+                              const SizedBox(height: 40),
+                              _buildInfoBox(isDark),
+                              const SizedBox(height: 40),
+                            ],
+                          ),
+                          _buildActionButton(ykcon),
+                        ],
                       ),
                     ),
-                    _buildActionButton(ykcon),
-                  ],
-                ),
+                  ),
+          ),
         );
       },
     );
@@ -162,7 +172,9 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(
-                color: isDark ? Colors.white10 : Colors.grey.shade200,
+                color: isDark
+                    ? Colors.white10
+                    : const Color.fromARGB(255, 201, 200, 200),
               ),
             ),
             focusedBorder: OutlineInputBorder(
@@ -229,36 +241,31 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
   }
 
   Widget _buildActionButton(YekController ykcon) {
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: ElevatedButton(
-        onPressed: () {
-          ykcon.checkCompatibility(context);
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: primaryBlue,
-          minimumSize: const Size(double.infinity, 60),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          elevation: 4,
-          shadowColor: primaryBlue.withOpacity(0.4),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              'Check Compatibility',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+    return ElevatedButton(
+      onPressed: () {
+        ykcon.checkCompatibility(context);
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryBlue,
+        minimumSize: const Size(double.infinity, 60),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: 4,
+        shadowColor: primaryBlue.withOpacity(0.4),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            'Check Compatibility',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
             ),
-            SizedBox(width: 8),
-            Icon(Icons.analytics_outlined, color: Colors.white),
-          ],
-        ),
+          ),
+          SizedBox(width: 8),
+          Icon(Icons.analytics_outlined, color: Colors.white),
+        ],
       ),
     );
   }

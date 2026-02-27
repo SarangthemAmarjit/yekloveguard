@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yekloveguard/controller.dart/yek_controller.dart';
 
 class IncompatibleResultPage extends StatelessWidget {
-  const IncompatibleResultPage({super.key});
+   IncompatibleResultPage({super.key});
 
   // Theme Colors
   final Color dangerRed = const Color(0xFFEF4444);
   final Color warningOrange = const Color(0xFFF59E0B);
-  final Color primaryBlue = const Color(0xFF135BEC);
+  final Color primaryBlue =  Color(0xFFC5A059);
   final Color backgroundDark = const Color(0xFF101622);
   final Color backgroundLight = const Color(0xFFF6F6F8);
 
@@ -51,7 +53,7 @@ class IncompatibleResultPage extends StatelessWidget {
           // Gradient Background
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(32),
+              borderRadius: BorderRadius.circular(10),
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -63,27 +65,30 @@ class IncompatibleResultPage extends StatelessWidget {
               ),
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(32),
-                decoration: BoxDecoration(
-                  color: dangerRed.withOpacity(0.15),
-                  shape: BoxShape.circle,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(32),
+                  decoration: BoxDecoration(
+                    color: dangerRed.withOpacity(0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(Icons.shield, size: 80, color: dangerRed),
                 ),
-                child: Icon(Icons.shield, size: 80, color: dangerRed),
-              ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _statusBadge('INCOMPATIBLE', dangerRed),
-                  const SizedBox(width: 8),
-                  _statusBadge('YEK SALAI MATCH', warningOrange),
-                ],
-              ),
-            ],
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _statusBadge('INCOMPATIBLE', dangerRed),
+                    const SizedBox(width: 8),
+                    _statusBadge('YEK SALAI MATCH', warningOrange),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -157,10 +162,11 @@ class IncompatibleResultPage extends StatelessWidget {
   }
 
   Widget _buildActionButtons(BuildContext context) {
+    final YekController ykcon = Get.find<YekController>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
       child: ElevatedButton.icon(
-        onPressed: () => Navigator.pop(context),
+        onPressed: () => ykcon.reset(),
         icon: const Icon(Icons.refresh),
         label: const Text('Check New Surnames'),
         style: ElevatedButton.styleFrom(

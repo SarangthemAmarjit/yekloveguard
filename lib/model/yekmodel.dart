@@ -1,30 +1,31 @@
+// To parse this JSON data, do
+//
+// final yekModel = yekModelFromJson(jsonString);
+
 import 'dart:convert';
 
-YekModel yekModelFromJson(String str) =>
-    YekModel.fromJson(json.decode(str));
+List<YekModel> yekModelFromJson(String str) =>
+    List<YekModel>.from(json.decode(str).map((x) => YekModel.fromJson(x)));
 
-String yekModelToJson(YekModel data) =>
-    json.encode(data.toJson());
+String yekModelToJson(List<YekModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class YekModel {
-  Map<String, List<String>> yek;
+  String yekname;
+  List<String> surnames;
 
   YekModel({
-    required this.yek,
+    required this.yekname,
+    required this.surnames,
   });
 
-  factory YekModel.fromJson(Map<String, dynamic> json) =>
-      YekModel(
-        yek: json.map(
-          (key, value) => MapEntry(
-            key,
-            List<String>.from(value.map((x) => x)),
-          ),
-        ),
+  factory YekModel.fromJson(Map<String, dynamic> json) => YekModel(
+        yekname: json["yekname"],
+        surnames: List<String>.from(json["surnames"].map((x) => x)),
       );
 
-  Map<String, dynamic> toJson() =>
-      yek.map(
-        (key, value) => MapEntry(key, List<dynamic>.from(value)),
-      );
+  Map<String, dynamic> toJson() => {
+        "yekname": yekname,
+        "surnames": List<dynamic>.from(surnames.map((x) => x)),
+      };
 }

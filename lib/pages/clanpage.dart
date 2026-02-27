@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yekloveguard/controller.dart/yek_controller.dart';
 
 class ClanSectionPage extends StatelessWidget {
   const ClanSectionPage({super.key});
@@ -13,10 +14,10 @@ class ClanSectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
-
+final YekController yekController = Get.find<YekController>();
     return Stack(
       children: [
-        ListView(
+        ListView(controller: yekController.scrollController,
           padding: const EdgeInsets.all(16),
           children: [
             const SizedBox(height: 8),
