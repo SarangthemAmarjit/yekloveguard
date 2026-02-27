@@ -13,83 +13,44 @@ class ClanSectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
-final YekController yekController = Get.find<YekController>();
-    return Stack(
-      children: [
-        ListView(controller: yekController.scrollController,
-          padding: const EdgeInsets.all(16),
-          children: [
-            const SizedBox(height: 8),
-            _buildHeader(),
-            const SizedBox(height: 32),
-            _clanCard(
-              name: "Mangang",
-
-              subtitle: "Supreme Lineage",
-              description:
-                  "The solar dynasty representing the head of the seven clans, originating from the Ningthouja era.",
-              icon: Icons.wb_sunny,
-              isDark: isDark,
+    final YekController yekController = Get.find<YekController>();
+    return GetBuilder<YekController>(
+      builder: (_) {
+        return Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/bg.jpg'),
+              fit: BoxFit.cover,
             ),
-            _clanCard(
-              name: "Luwang",
-
-              subtitle: "Architects of Grace",
-              description:
-                  "Known for their wisdom and administrative excellence, fostering the growth of the community.",
-              icon: Icons.architecture,
-              isDark: isDark,
-            ),
-            _clanCard(
-              name: "Khuman",
-
-              subtitle: "The Night Watch",
-              description:
-                  "A powerful lineage associated with strength, bravery, and the mystical elements of the deep forest.",
-              icon: Icons.dark_mode,
-              isDark: isDark,
-            ),
-            _clanCard(
-              name: "Angom",
-
-              subtitle: "Celestial Guardians",
-              description:
-                  "The priestly and scholarly clan, maintaining the sacred traditions and celestial records.",
-              icon: Icons.auto_awesome,
-              isDark: isDark,
-            ),
-            _clanCard(
-              name: "Moirang",
-
-              subtitle: "Spirits of the Water",
-              description:
-                  "Descendants of the lake regions, celebrated for their artistry, music, and cultural vibrancy.",
-              icon: Icons.waves,
-              isDark: isDark,
-            ),
-            _clanCard(
-              name: "Kha Nganba",
-
-              subtitle: "Foundations of Earth",
-              description:
-                  "The resilient protectors of the land, known for their agricultural mastery and grounding force.",
-              icon: Icons.eco,
-              isDark: isDark,
-            ),
-            _clanCard(
-              name: "Salai Leishangthem",
-
-              subtitle: "Harmonizers",
-              description:
-                  "The weavers of the social fabric, excelling in trade, diplomacy, and communal unity.",
-              icon: Icons.hub,
-              isDark: isDark,
-            ),
-            const SizedBox(height: 100), // Space for bottom nav
-          ],
-        ),
-      ],
+          ),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              _buildHeader(),
+              Expanded(
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  controller: yekController.scrollController,
+                  padding: const EdgeInsets.all(16),
+                  itemCount: yekController.allyekdata.length,
+                  itemBuilder: (context, index) {
+                    return _clanCard(
+                      index: index,
+                      name: yekController.allyekdata[index]!.meiteimayek,
+                      subtitle: yekController.allyekdata[index]!.title,
+                      description: yekController.allyekdata[index]!.description,
+                      icon: yekController.getYEKicons(
+                        yekname: yekController.allyekdata[index]!.yekname,
+                      ),
+                      ykcon: yekController,
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -97,11 +58,13 @@ final YekController yekController = Get.find<YekController>();
     return Column(
       children: [
         Text(
-          'Yek Salai Lineage',
+          'Yek Salai Clans',
           textAlign: TextAlign.center,
-          style: GoogleFonts.notoSerif(
+          style: TextStyle(
+            fontFamily: 'GreateVibes',
             fontSize: 32,
             fontWeight: FontWeight.bold,
+            letterSpacing: 3,
           ),
         ),
         const SizedBox(height: 8),
@@ -119,28 +82,35 @@ final YekController yekController = Get.find<YekController>();
 
   Widget _clanCard({
     required String name,
-
+    required int index,
     required String subtitle,
     required String description,
     required IconData icon,
-    required bool isDark,
+    required YekController ykcon,
   }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: primaryGold.withOpacity(0.3)),
+        border: Border.all(
+          color: const Color.fromARGB(255, 0, 44, 78).withOpacity(0.3),
+        ),
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [primaryGold.withOpacity(0.1), Colors.transparent],
+          colors: [
+            ykcon
+                .getYEKcolor(yekname: ykcon.allyekdata[index]!.yekname)
+                .withOpacity(0.2),
+            Colors.transparent,
+          ],
         ),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            Get.toNamed('/clandetails');
+            ykcon.setselectedyekindex(ind: index);
           },
           borderRadius: BorderRadius.circular(16),
           child: Padding(
@@ -154,10 +124,12 @@ final YekController yekController = Get.find<YekController>();
                     children: [
                       Text(
                         name,
-                        style: GoogleFonts.notoSerif(
+                        style: TextStyle(
+                          fontFamily: 'Leikoi',
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: primaryGold,
+                          letterSpacing: 1.5,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -167,7 +139,7 @@ final YekController yekController = Get.find<YekController>();
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1.5,
-                          color: primaryGold.withOpacity(0.7),
+                          color: const Color.fromARGB(255, 0, 44, 78),
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -175,7 +147,7 @@ final YekController yekController = Get.find<YekController>();
                         description,
                         style: GoogleFonts.notoSans(
                           fontSize: 14,
-                          color: isDark ? Colors.grey[400] : Colors.grey[700],
+                          color: Colors.grey[700],
                           height: 1.4,
                         ),
                       ),
@@ -183,7 +155,20 @@ final YekController yekController = Get.find<YekController>();
                   ),
                 ),
                 const SizedBox(width: 12),
-                Icon(icon, size: 40, color: primaryGold.withOpacity(0.8)),
+                Card(
+                  elevation: 20,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.asset(
+                      ykcon.getYEKimage(
+                        yekname: ykcon.allyekdata[index]!.yekname,
+                      ),
+
+                      height: 150,
+                    ),
+                  ),
+                ),
+                // Icon(icon, size: 40, color: primaryGold.withOpacity(0.8)),
               ],
             ),
           ),

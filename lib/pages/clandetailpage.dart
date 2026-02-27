@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yekloveguard/controller.dart/yek_controller.dart';
 
 class ClanDetailPage extends StatelessWidget {
   const ClanDetailPage({super.key});
@@ -12,7 +14,7 @@ class ClanDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
-
+    final YekController yekController = Get.find<YekController>();
     return Scaffold(
       backgroundColor: isDark ? backgroundDark : backgroundLight,
       appBar: AppBar(
@@ -25,11 +27,13 @@ class ClanDetailPage extends StatelessWidget {
         ),
         centerTitle: true,
         title: Text(
-          'Khuul Clan',
-          style: GoogleFonts.notoSerif(
+          yekController.allyekdata[yekController.selectedyekIndex]!.meiteimayek,
+          style: TextStyle(
+            fontFamily: 'Leikoi',
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 25,
             color: isDark ? Colors.white : Colors.black,
+            letterSpacing: 2,
           ),
         ),
         actions: [
@@ -39,21 +43,36 @@ class ClanDetailPage extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 24),
-            _buildProfileHeader(),
-            const SizedBox(height: 32),
-            _buildSurnameGrid(isDark),
-            const SizedBox(height: 100), // Bottom padding for Nav
-          ],
-        ),
+      body: Stack(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/bg.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 20),
+                _buildProfileHeader(yekController),
+                const SizedBox(height: 32),
+                _buildSurnameGrid(isDark, yekController),
+                const SizedBox(height: 100), // Bottom padding for Nav
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildProfileHeader() {
+  Widget _buildProfileHeader(YekController ykcon) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
@@ -68,10 +87,13 @@ class ClanDetailPage extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(color: primaryGold, width: 2),
                 ),
-                child: const CircleAvatar(
+                child: CircleAvatar(
                   radius: 60,
-                  backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1576014131795-d440191a8e8b?auto=format&fit=crop&w=300&q=80',
+                  backgroundImage: AssetImage(
+                    ykcon.getYEKimage(
+                      yekname:
+                          ykcon.allyekdata[ykcon.selectedyekIndex]!.yekname,
+                    ),
                   ),
                 ),
               ),
@@ -100,7 +122,7 @@ class ClanDetailPage extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            'The Golden Bloodline',
+            ykcon.allyekdata[ykcon.selectedyekIndex]!.title.toUpperCase(),
             style: GoogleFonts.notoSerif(
               fontSize: 28,
               fontWeight: FontWeight.bold,
@@ -120,18 +142,29 @@ class ClanDetailPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: primaryGold.withOpacity(0.05),
+              color: ykcon
+                  .getYEKcolor(
+                    yekname: ykcon.allyekdata[ykcon.selectedyekIndex]!.yekname,
+                  )
+                  .withOpacity(0.05),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: primaryGold.withOpacity(0.2)),
+              border: Border.all(
+                color: ykcon
+                    .getYEKcolor(
+                      yekname:
+                          ykcon.allyekdata[ykcon.selectedyekIndex]!.yekname,
+                    )
+                    .withOpacity(0.2),
+              ),
             ),
             child: Text(
-              '"Yek Salai" — Surnames within this clan share a spiritual and biological essence. Traditional guidelines prohibit unions between these names to preserve ancestral health.',
+              ykcon.allyekdata[ykcon.selectedyekIndex]!.description,
               textAlign: TextAlign.center,
               style: GoogleFonts.notoSans(
                 fontSize: 14,
                 fontStyle: FontStyle.italic,
                 height: 1.5,
-                color: Colors.grey[400],
+                color: const Color.fromARGB(255, 0, 2, 114),
               ),
             ),
           ),
@@ -140,7 +173,7 @@ class ClanDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSurnameGrid(bool isDark) {
+  Widget _buildSurnameGrid(bool isDark, YekController ykcon) {
     final List<Map<String, String>> surnames = [
       {'letter': 'A', 'name': 'Abasi'},
       {'letter': 'A', 'name': 'Adane'},
@@ -192,7 +225,12 @@ class ClanDetailPage extends StatelessWidget {
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
-                  color: primaryGold.withOpacity(0.05),
+                  color: ykcon
+                      .getYEKcolor(
+                        yekname:
+                            ykcon.allyekdata[ykcon.selectedyekIndex]!.yekname,
+                      )
+                      .withOpacity(0.05),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: primaryGold.withOpacity(0.1)),
                 ),

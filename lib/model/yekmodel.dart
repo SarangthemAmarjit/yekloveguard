@@ -12,20 +12,34 @@ String yekModelToJson(List<YekModel> data) =>
 
 class YekModel {
   String yekname;
+  String meiteimayek;
+  String title;
+
+  String description;
   List<String> surnames;
 
   YekModel({
     required this.yekname,
+    required this.meiteimayek,
+
+    required this.title,
+    required this.description,
     required this.surnames,
   });
 
   factory YekModel.fromJson(Map<String, dynamic> json) => YekModel(
-        yekname: json["yekname"],
-        surnames: List<String>.from(json["surnames"].map((x) => x)),
-      );
+    yekname: json["yekname"],
+    meiteimayek: json["meiteimayek"],
+    title: json["title"],
+    description: json["description"],
+    surnames: List<String>.from(json["surnames"].map((x) => x)),
+  );
 
   Map<String, dynamic> toJson() => {
-        "yekname": yekname,
-        "surnames": List<dynamic>.from(surnames.map((x) => x)),
-      };
+    "yekname": yekname,
+    "meiteimayek": meiteimayek,
+    "title": title,
+    "description": description,
+    "surnames": List<dynamic>.from(surnames.map((x) => x)),
+  };
 }

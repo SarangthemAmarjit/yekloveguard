@@ -82,6 +82,18 @@ flutter:
     - family: KulimPark
       fonts:
         - asset: assets/fonts/KulimPark-Regular.ttf
+    - family: Leikoi
+      fonts:
+        - asset: assets/fonts/Leikoi.ttf
+    - family: Times
+      fonts:
+        - asset: assets/fonts/times.ttf
+    - family: Noto
+      fonts:
+        - asset: assets/fonts/Noto.ttf
+    - family: GreateVibes
+      fonts:
+        - asset: assets/fonts/GreatVibes-Regular.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

@@ -1,6 +1,10 @@
 [
   {
     "yekname": "MANGANG",
+    "meiteimayek": "ꯃꯉꯥꯡ",
+    "title" : "Supreme Lineage",
+    "description" : "The solar dynasty representing the head of the seven clans, originating from the Ningthouja era.",
+   
     "surnames": [
       "AHEIBAM",
       "ACHURAM",
@@ -261,6 +265,9 @@
   },
   {
     "yekname": "LUWANG",
+    "meiteimayek": "ꯂꯨꯋꯥꯡ",
+    "title" : "Architects of Grace",
+    "description" : "Known for their wisdom and administrative excellence, fostering the growth of the community.",
     "surnames": [
       "ABUJAM",
       "ACHOIBAM",
@@ -369,6 +376,9 @@
   },
   {
     "yekname": "KHUMAN",
+    "meiteimayek": "ꯈꯨꯃꯟ",
+    "title" : "The Night Watch",
+    "description" : "A powerful lineage associated with strength, bravery, and the mystical elements of the deep forest.",
     "surnames": [
       "AHONGSANGBAM",
       "AFRAM",
@@ -576,6 +586,9 @@
   },
   {
     "yekname": "ANGOM",
+    "meiteimayek": "ꯑꯉꯣꯝ",
+    "title":"Celestial Guardians",
+    "description":"The priestly and scholarly clan, maintaining the sacred traditions and celestial records.",
     "surnames": [
       "ACHOIBAM",
       "ACHUBAM",
@@ -682,56 +695,12 @@
       "YUMKHAIBAM"
     ]
   },
-  {
-    "yekname": "KHABA NGANBA",
-    "surnames": [
-      "AHEIBAM",
-      "CHENGLEIJAM",
-      "HAOBIJAM",
-      "HEKNGAKPAM",
-      "HENTAKPAM",
-      "IWANGBAM",
-      "KHAIDEM",
-      "KHATHANGBAM",
-      "KHUDONGBAM",
-      "KHUMJAM",
-      "KHUMUKCHAM",
-      "KHUNDONGBAM",
-      "KHURAIJAM",
-      "KHUWAIJAM",
-      "KHUMUJAM",
-      "KHURAIJAM",
-      "KONCHOPAM",
-      "KONHEIBAM",
-      "KONJENGBAM",
-      "KONTHOUCHAM",
-      "KONTHOUJAM",
-      "LANGOLJAM",
-      "LANGONJAM",
-      "MAHOUBAM",
-      "MANTANGBAM",
-      "MELANGBAM",
-      "MERIMAYUM",
-      "NGAKPAM",
-      "NONGCHENBAM",
-      "PHIDAM",
-      "SAMJETSABAM",
-      "SANGAMBAM",
-      "SANJIBAM",
-      "SANJIRAM",
-      "TEKCHAM",
-      "THINBAM",
-      "THINGBAM",
-      "THONGAM",
-      "THOURIKHUM",
-      "WAKEMSANGBAM",
-      "WANGBAJAM",
-      "WANGKONCHAM",
-      "YENGLANGBAM"
-    ]
-  },
+
   {
     "yekname": "MOIRANG",
+    "meiteimayek": "ꯃꯣꯢꯔꯥꯡ",
+    "title":"Spirits of the Water",
+    "description":"Descendants of the lake regions, celebrated for their artistry, music, and cultural vibrancy.",
     "surnames": [
       "ACHOM",
       "AHAIBAM",
@@ -833,8 +802,62 @@
       "YAIKHOM"
     ]
   },
+    {
+    "yekname": "KHABA NGANBA",
+    "meiteimayek": "ꯈꯥꯕꯥ ꯉꯥꯟꯕꯥ",
+    "title":"Foundations of Earth",
+    "description":"The resilient protectors of the land, known for their agricultural mastery and grounding force.",
+    "surnames": [
+      "AHEIBAM",
+      "CHENGLEIJAM",
+      "HAOBIJAM",
+      "HEKNGAKPAM",
+      "HENTAKPAM",
+      "IWANGBAM",
+      "KHAIDEM",
+      "KHATHANGBAM",
+      "KHUDONGBAM",
+      "KHUMJAM",
+      "KHUMUKCHAM",
+      "KHUNDONGBAM",
+      "KHURAIJAM",
+      "KHUWAIJAM",
+      "KHUMUJAM",
+      "KHURAIJAM",
+      "KONCHOPAM",
+      "KONHEIBAM",
+      "KONJENGBAM",
+      "KONTHOUCHAM",
+      "KONTHOUJAM",
+      "LANGOLJAM",
+      "LANGONJAM",
+      "MAHOUBAM",
+      "MANTANGBAM",
+      "MELANGBAM",
+      "MERIMAYUM",
+      "NGAKPAM",
+      "NONGCHENBAM",
+      "PHIDAM",
+      "SAMJETSABAM",
+      "SANGAMBAM",
+      "SANJIBAM",
+      "SANJIRAM",
+      "TEKCHAM",
+      "THINBAM",
+      "THINGBAM",
+      "THONGAM",
+      "THOURIKHUM",
+      "WAKEMSANGBAM",
+      "WANGBAJAM",
+      "WANGKONCHAM",
+      "YENGLANGBAM"
+    ]
+  },
   {
     "yekname": "SALANG LEISANGTHEM",
+    "meiteimayek": "ꯁꯥꯂꯥꯡ ꯂꯩꯁꯥꯡꯊꯦꯝ",
+    "title":"Harmonizers",
+    "description":"The weavers of the social fabric, excelling in trade, diplomacy, and communal unity.",
     "surnames": [
       "AMOM",
       "AMOMAHEIBAM",

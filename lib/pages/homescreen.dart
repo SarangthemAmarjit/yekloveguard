@@ -101,7 +101,7 @@ class HomeScreen extends StatelessWidget {
                         top: Radius.circular(20),
                       ),
                       child: Image.asset(
-                        'assets/images/heroimage.jpg',
+                        'assets/images/heroimage2.jpg',
 
                         fit: BoxFit.contain,
                       ),

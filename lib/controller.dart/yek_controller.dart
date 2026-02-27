@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -7,8 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yekloveguard/model/yekmodel.dart';
 
 class YekController extends GetxController {
-
-  
   final TextEditingController lover1Controller = TextEditingController();
   final TextEditingController lover2Controller = TextEditingController();
   var lover1 = "".obs;
@@ -16,12 +12,15 @@ class YekController extends GetxController {
   var result = "".obs;
   int _selectedIndex = 0;
   int get selectedIndex => _selectedIndex;
+
+  int _selectedyekIndex = 0;
+  int get selectedyekIndex => _selectedyekIndex;
   final ScrollController _scrollController = ScrollController();
   ScrollController get scrollController => _scrollController;
- List<YekModel?> _allyekdata = [];
+  List<YekModel?> _allyekdata = [];
   List<YekModel?> get allyekdata => _allyekdata;
   List<String> surnames = [];
-Map<String, String> surnameToYek = {};
+  Map<String, String> surnameToYek = {};
 
   bool? isDangerous;
 
@@ -29,6 +28,12 @@ Map<String, String> surnameToYek = {};
   void onInit() {
     super.onInit();
     loadJson();
+  }
+
+  void setselectedyekindex({required int ind}) {
+    _selectedyekIndex = ind;
+    update();
+    Get.toNamed('/clandetails');
   }
 
   void setselectednavindex({required int index}) {
@@ -49,30 +54,91 @@ Map<String, String> surnameToYek = {};
     result.value = "";
   }
 
- 
-
-Future<void> loadJson() async {
-  final response =
-      await rootBundle.loadString('assets/yek_converted.json');
-
-  _allyekdata = yekModelFromJson(response);
-
-  surnames.clear();
-  surnameToYek.clear();
-
-  for (var yek in _allyekdata) {
-    surnames.addAll(yek!.surnames);
-
-    /// Create fast lookup map
-    for (var surname in yek.surnames) {
-      surnameToYek[surname.toUpperCase()] = yek.yekname;
+  IconData getYEKicons({required String yekname}) {
+    switch (yekname) {
+      case "MANGANG":
+        return Icons.wb_sunny;
+      case "LUWANG":
+        return Icons.architecture;
+      case "KHUMAN":
+        return Icons.dark_mode;
+      case "ANGOM":
+        return Icons.auto_awesome;
+      case "MOIRANG":
+        return Icons.water;
+      case "KHABA NGANBA":
+        return Icons.terrain;
+      case "SALANG LEISANGTHEM":
+        return Icons.hub;
+      default:
+        return Icons.help_outline;
     }
   }
-}
 
-String? getYek(String surname) {
-  return surnameToYek[surname.trim().toUpperCase()];
-}
+  Color getYEKcolor({required String yekname}) {
+    switch (yekname) {
+      case "MANGANG":
+        return Colors.red;
+      case "LUWANG":
+        return Colors.white;
+      case "KHUMAN":
+        return Colors.black;
+      case "ANGOM":
+        return Colors.yellow;
+      case "MOIRANG":
+        return Colors.pink;
+      case "KHABA NGANBA":
+        return Colors.blue;
+      case "SALANG LEISANGTHEM":
+        return Colors.green;
+      default:
+        return Colors.orange;
+    }
+  }
+
+  String getYEKimage({required String yekname}) {
+    switch (yekname) {
+      case "MANGANG":
+        return "assets/images/Mangang.jpg";
+      case "LUWANG":
+        return "assets/images/Luwang.jpg";
+      case "KHUMAN":
+        return "assets/images/Khuman.jpg";
+      case "ANGOM":
+        return "assets/images/Angom.jpg";
+      case "MOIRANG":
+        return "assets/images/Moirang.jpg";
+      case "KHABA NGANBA":
+        return "assets/images/khabanganba.jpg";
+      case "SALANG LEISANGTHEM":
+        return "assets/images/salangleishang.jpg";
+      default:
+        return '';
+    }
+  }
+
+  Future<void> loadJson() async {
+    final response = await rootBundle.loadString('assets/yek_converted.json');
+
+    _allyekdata = yekModelFromJson(response);
+    update();
+
+    surnames.clear();
+    surnameToYek.clear();
+
+    for (var yek in _allyekdata) {
+      surnames.addAll(yek!.surnames);
+
+      /// Create fast lookup map
+      for (var surname in yek.surnames) {
+        surnameToYek[surname.toUpperCase()] = yek.yekname;
+      }
+    }
+  }
+
+  String? getYek(String surname) {
+    return surnameToYek[surname.trim().toUpperCase()];
+  }
 
   void checkCompatibility(BuildContext context) async {
     final yek1 = getYek(lover1Controller.text);
