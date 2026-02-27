@@ -201,7 +201,7 @@ class ClanDetailPage extends StatelessWidget {
                 ),
               ),
               Text(
-                '42 REGISTERED NAMES',
+                '${ykcon.allyekdata[ykcon.selectedyekIndex]!.surnames.length} REGISTERED NAMES',
                 style: GoogleFonts.notoSans(
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
@@ -220,7 +220,8 @@ class ClanDetailPage extends StatelessWidget {
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
             ),
-            itemCount: surnames.length,
+            itemCount:
+                ykcon.allyekdata[ykcon.selectedyekIndex]!.surnames.length,
             itemBuilder: (context, index) {
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -232,26 +233,23 @@ class ClanDetailPage extends StatelessWidget {
                       )
                       .withOpacity(0.05),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: primaryGold.withOpacity(0.1)),
+                  border: Border.all(
+                    color: ykcon
+                        .getYEKcolor(
+                          yekname:
+                              ykcon.allyekdata[ykcon.selectedyekIndex]!.yekname,
+                        )
+                        .withOpacity(0.3),
+                  ),
                 ),
-                child: Row(
-                  children: [
-                    Text(
-                      surnames[index]['letter']!,
-                      style: TextStyle(
-                        color: primaryGold,
-                        fontWeight: FontWeight.bold,
-                      ),
+                child: Center(
+                  child: Text(
+                    ykcon.allyekdata[ykcon.selectedyekIndex]!.surnames[index],
+                    style: GoogleFonts.notoSans(
+                      fontWeight: FontWeight.w500,
+                      color: isDark ? Colors.white : Colors.black,
                     ),
-                    const SizedBox(width: 12),
-                    Text(
-                      surnames[index]['name']!,
-                      style: GoogleFonts.notoSans(
-                        fontWeight: FontWeight.w500,
-                        color: isDark ? Colors.white : Colors.black,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               );
             },
