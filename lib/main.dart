@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:yekloveguard/controller.dart/yek_controller.dart';
 import 'package:yekloveguard/pages/clandetailpage.dart';
 import 'package:yekloveguard/pages/mainnavigatpage.dart';
 
@@ -8,7 +10,13 @@ import 'package:yekloveguard/pages/mainnavigatpage.dart';
 // import 'home_page.dart';
 // import 'check_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MobileAds.instance.initialize();
+  Get.put(YekController());
+  Get.find<YekController>().loadAppOpenAd();
+  Get.find<YekController>().initializeBannerAd();
+
   runApp(const YekSalaiApp());
 }
 

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yekloveguard/model/yekmodel.dart';
 
@@ -28,13 +29,54 @@ class YekController extends GetxController {
   List<String> get selectedsurnames => _selectedsurnames;
   List<String> _filteredsurnames = [];
   List<String> get filteredsurnames => _filteredsurnames;
+  bool _isBannerLoaded = false;
+  bool get isBannerLoaded => _isBannerLoaded;
 
   bool? isDangerous;
+  AppOpenAd? _appOpenAd;
+  BannerAd? myBanner;
+  InterstitialAd? _interstitialAd;
 
   @override
   void onInit() {
     super.onInit();
     loadJson();
+    initializeBannerAd();
+  }
+
+  void loadAppOpenAd() {
+    AppOpenAd.load(
+      adUnitId: 'ca-app-pub-4031902783218208/1452365504',
+      request: AdRequest(),
+      adLoadCallback: AppOpenAdLoadCallback(
+        onAdLoaded: (ad) {
+          _appOpenAd = ad;
+          _appOpenAd!.show();
+        },
+        onAdFailedToLoad: (error) {
+          print(error);
+        },
+      ),
+    );
+  }
+
+  void initializeBannerAd() {
+    myBanner = BannerAd(
+      adUnitId: 'ca-app-pub-4031902783218208/2006423913',
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          _isBannerLoaded = true;
+          update();
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+          print(error);
+        },
+      ),
+    );
+    myBanner!.load();
   }
 
   void setselectedyekindex({required int ind}) {
@@ -47,7 +89,7 @@ class YekController extends GetxController {
   }
 
   void searchSurnames(String query) {
-    log("Query : "+query);
+    log("Query : " + query);
     if (query.isEmpty) {
       _filteredsurnames = _selectedsurnames;
     } else {
@@ -58,7 +100,7 @@ class YekController extends GetxController {
           .toList();
     }
     update();
-    log("filtered List : "+_filteredsurnames.toString());
+    log("filtered List : " + _filteredsurnames.toString());
   }
 
   void setselectednavindex({required int index}) {
@@ -165,6 +207,21 @@ class YekController extends GetxController {
     return surnameToYek[surname.trim().toUpperCase()];
   }
 
+  void loadInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: 'ca-app-pub-4031902783218208/9054359630',
+      request: AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          _interstitialAd = ad;
+        },
+        onAdFailedToLoad: (error) {
+          _interstitialAd = null;
+        },
+      ),
+    );
+  }
+
   void checkCompatibility(BuildContext context) async {
     final yek1 = getYek(lover1Controller.text);
     final yek2 = getYek(lover2Controller.text);
@@ -194,13 +251,18 @@ class YekController extends GetxController {
 
     if (yek1 == yek2) {
       isDangerous = true;
-      update();
     } else {
       isDangerous = false;
-      update();
     }
 
-    saveHistory();
+    update();
+
+    // 👇 SHOW INTERSTITIAL HERE
+    if (_interstitialAd != null) {
+      _interstitialAd!.show();
+      _interstitialAd = null;
+      loadInterstitialAd(); // preload next ad
+    }
   }
 
   void showNotFoundDialog(BuildContext context, String content) {

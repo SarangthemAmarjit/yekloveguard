@@ -1,40 +1,84 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:yekloveguard/constant/constantcol.dart';
 import 'package:yekloveguard/controller.dart/yek_controller.dart';
+import 'package:yekloveguard/widget/clancard.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // Background Pattern Simulation
-        Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/bg.jpg'),
-              fit: BoxFit.cover,
+    final YekController yekController = Get.find<YekController>();
+    return GetBuilder<YekController>(
+      builder: (_) {
+        return Stack(
+          children: [
+            // Background Pattern Simulation
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/bg.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-          ),
-        ),
-        SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 100),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeroHeader(),
-              _buildVerificationCard(),
-              _buildGridSections(),
-              _buildRecentActivity(),
-            ],
-          ),
-        ),
-      ],
+            SingleChildScrollView(
+              padding: const EdgeInsets.only(bottom: 100),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 24),
+                  CarouselSlider.builder(
+                    itemCount: yekController.allyekdata.length,
+                    itemBuilder: (context, index, realIndex) {
+                      return clanCard(
+                        index: index,
+                        name: yekController.allyekdata[index]!.meiteimayek,
+                        subtitle: yekController.allyekdata[index]!.title,
+                        description:
+                            yekController.allyekdata[index]!.description,
+                        icon: yekController.getYEKicons(
+                          yekname: yekController.allyekdata[index]!.yekname,
+                        ),
+                        ykcon: yekController,
+                      );
+                    },
+                    options: CarouselOptions(
+                      autoPlayAnimationDuration: const Duration(
+                        milliseconds: 800,
+                      ),
+                      height: 230,
+                      enlargeCenterPage: true,
+                      viewportFraction: 0.87,
+                      autoPlay: true,
+                      enableInfiniteScroll: true,
+                      scrollPhysics: const BouncingScrollPhysics(),
+                    ),
+                  ),
+
+                  _buildHeroHeader(),
+                  _buildVerificationCard(),
+                  if (yekController.isBannerLoaded)
+                    Container(
+                      alignment: Alignment.center,
+                      child: AdWidget(ad: yekController.myBanner!),
+                      width: yekController.myBanner!.size.width.toDouble(),
+                      height: yekController.myBanner!.size.height.toDouble(),
+                    ),
+                  // _buildGridSections(),
+                  // _buildRecentActivity(),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

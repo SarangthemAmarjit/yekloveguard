@@ -3,15 +3,29 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yekloveguard/controller.dart/yek_controller.dart';
 
-class CompatibleResultPage extends StatelessWidget {
+class CompatibleResultPage extends StatefulWidget {
   const CompatibleResultPage({super.key});
 
+  @override
+  State<CompatibleResultPage> createState() => _CompatibleResultPageState();
+}
+
+class _CompatibleResultPageState extends State<CompatibleResultPage> {
   // Color Palette
   final Color primaryBlue = const Color(0xFF135BEC);
+
   final Color successGreen = const Color(0xFF10B981);
+
   final Color accentGold = const Color(0xFFFBBF24);
+
   final Color backgroundDark = const Color(0xFF101622);
+
   final Color backgroundLight = const Color(0xFFF6F6F8);
+  @override
+  void initState() {
+    super.initState();
+    Get.find<YekController>().loadInterstitialAd(); // 👈 CALL HERE
+  }
 
   @override
   Widget build(BuildContext context) {
