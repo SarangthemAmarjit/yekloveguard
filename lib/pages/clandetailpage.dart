@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:yekloveguard/controller.dart/yek_controller.dart';
+import 'package:yekloveguard/widget/clancard.dart';
 
 class ClanDetailPage extends StatelessWidget {
   const ClanDetailPage({super.key});
@@ -16,58 +17,135 @@ class ClanDetailPage extends StatelessWidget {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     final YekController yekController = Get.find<YekController>();
     return Scaffold(
-      backgroundColor: isDark ? backgroundDark : backgroundLight,
-      appBar: AppBar(
-        backgroundColor: (isDark ? backgroundDark : backgroundLight)
-            .withOpacity(0.8),
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new, color: primaryGold, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
-        centerTitle: true,
-        title: Text(
-          yekController.allyekdata[yekController.selectedyekIndex]!.meiteimayek,
-          style: TextStyle(
-            fontFamily: 'Leikoi',
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-            color: isDark ? Colors.white : Colors.black,
-            letterSpacing: 2,
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.info_outline, color: primaryGold),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/bg.jpg'),
-                fit: BoxFit.cover,
+      // appBar: AppBar(
+      //   backgroundColor: (isDark ? backgroundDark : backgroundLight)
+      //       .withOpacity(0.8),
+      //   elevation: 0,
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back_ios_new, color: primaryGold, size: 20),
+      //     onPressed: () => Navigator.pop(context),
+      //   ),
+      //   centerTitle: true,
+      //   title: Text(
+      //     yekController.allyekdata[yekController.selectedyekIndex]!.meiteimayek,
+      //     style: TextStyle(
+      //       fontFamily: 'Leikoi',
+      //       fontWeight: FontWeight.bold,
+      //       fontSize: 25,
+      //       color: isDark ? Colors.white : Colors.black,
+      //       letterSpacing: 2,
+      //     ),
+      //   ),
+      //   actions: [
+      //     IconButton(
+      //       icon: Icon(Icons.info_outline, color: primaryGold),
+      //       onPressed: () {},
+      //     ),
+      //   ],
+      // ),
+      body: GetBuilder<YekController>(
+        builder: (_) {
+          return Stack(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/bg.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),
-          ),
 
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: 20),
-                _buildProfileHeader(yekController),
-                const SizedBox(height: 32),
-                _buildSurnameGrid(isDark, yekController),
-                const SizedBox(height: 100), // Bottom padding for Nav
-              ],
-            ),
-          ),
-        ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    SizedBox(height: 50),
+                    clanCard(
+                      name: yekController
+                          .allyekdata[yekController.selectedyekIndex]!
+                          .meiteimayek,
+                      index: yekController.selectedyekIndex,
+                      subtitle: yekController
+                          .allyekdata[yekController.selectedyekIndex]!
+                          .title,
+                      description: yekController
+                          .allyekdata[yekController.selectedyekIndex]!
+                          .description,
+                      icon: yekController.getYEKicons(
+                        yekname: yekController
+                            .allyekdata[yekController.selectedyekIndex]!
+                            .yekname,
+                      ),
+                      ykcon: yekController,
+                    ),
+                    TextField(
+                      controller: yekController.searchcontroller,
+                      style: TextStyle(
+                        color: isDark ? Colors.white : Colors.black,
+                      ),
+                      onChanged: (value) => yekController.searchSurnames(value),
+                      decoration: InputDecoration(
+                        hintText: 'Search Surname',
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        prefixIcon: Icon(Icons.search, color: Colors.grey),
+                        filled: true,
+                        fillColor: isDark
+                            ? Colors.white.withOpacity(0.05)
+                            : Colors.white.withOpacity(0.7),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 18,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: isDark
+                                ? Colors.white10
+                                : const Color.fromARGB(255, 201, 200, 200),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: Colors.blue, width: 2),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Clan Surnames',
+                          style: GoogleFonts.notoSerif(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: primaryGold,
+                          ),
+                        ),
+                        Text(
+                          yekController.filteredsurnames.length <
+                                  yekController.selectedsurnames.length
+                              ? '${yekController.filteredsurnames.length} SURNAMES FOUND'
+                              : '${yekController.filteredsurnames.length} REGISTERED NAMES',
+                          style: GoogleFonts.notoSans(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 5),
+
+                    _buildSurnameGrid(isDark, yekController),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -154,7 +232,7 @@ class ClanDetailPage extends StatelessWidget {
                       yekname:
                           ykcon.allyekdata[ykcon.selectedyekIndex]!.yekname,
                     )
-                    .withOpacity(0.2),
+                    .withOpacity(0.7),
               ),
             ),
             child: Text(
@@ -174,100 +252,67 @@ class ClanDetailPage extends StatelessWidget {
   }
 
   Widget _buildSurnameGrid(bool isDark, YekController ykcon) {
-    final List<Map<String, String>> surnames = [
-      {'letter': 'A', 'name': 'Abasi'},
-      {'letter': 'A', 'name': 'Adane'},
-      {'letter': 'B', 'name': 'Bakari'},
-      {'letter': 'B', 'name': 'Bello'},
-      {'letter': 'C', 'name': 'Chidubem'},
-      {'letter': 'D', 'name': 'Diallo'},
-      {'letter': 'E', 'name': 'Eze'},
-      {'letter': 'F', 'name': 'Fofana'},
-    ];
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Clan Surnames',
-                style: GoogleFonts.notoSerif(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: primaryGold,
-                ),
-              ),
-              Text(
-                '${ykcon.allyekdata[ykcon.selectedyekIndex]!.surnames.length} REGISTERED NAMES',
-                style: GoogleFonts.notoSans(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 3,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-            ),
-            itemCount:
-                ykcon.allyekdata[ykcon.selectedyekIndex]!.surnames.length,
-            itemBuilder: (context, index) {
-              return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
-                  color: ykcon
-                      .getYEKcolor(
-                        yekname:
-                            ykcon.allyekdata[ykcon.selectedyekIndex]!.yekname,
-                      )
-                      .withOpacity(0.05),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: ykcon
-                        .getYEKcolor(
-                          yekname:
-                              ykcon.allyekdata[ykcon.selectedyekIndex]!.yekname,
-                        )
-                        .withOpacity(0.3),
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    ykcon.allyekdata[ykcon.selectedyekIndex]!.surnames[index],
-                    style: GoogleFonts.notoSans(
-                      fontWeight: FontWeight.w500,
-                      color: isDark ? Colors.white : Colors.black,
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            ykcon.filteredsurnames.isEmpty
+                ? SizedBox(
+                    height: 300,
+                    child: Center(
+                      child: Text(
+                        'No surnames found for "${ykcon.searchcontroller.text}"',
+                        style: TextStyle(color: Colors.grey, fontSize: 16),
+                      ),
                     ),
+                  )
+                : GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 3,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                        ),
+                    itemCount: ykcon.filteredsurnames.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        decoration: BoxDecoration(
+                          color: ykcon
+                              .getYEKcolor(
+                                yekname: ykcon
+                                    .allyekdata[ykcon.selectedyekIndex]!
+                                    .yekname,
+                              )
+                              .withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: const Color.fromARGB(
+                              255,
+                              1,
+                              25,
+                              45,
+                            ).withOpacity(0.2),
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            ykcon.filteredsurnames[index],
+                            style: GoogleFonts.notoSans(
+                              fontWeight: FontWeight.w500,
+                              color: isDark ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ),
-              );
-            },
-          ),
-          const SizedBox(height: 24),
-          OutlinedButton(
-            onPressed: () {},
-            style: OutlinedButton.styleFrom(
-              side: BorderSide(color: primaryGold),
-              shape: const StadiumBorder(),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-            child: Text(
-              'View All 42 Surnames',
-              style: TextStyle(color: primaryGold, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
+            const SizedBox(height: 24),
+          ],
+        ),
       ),
     );
   }

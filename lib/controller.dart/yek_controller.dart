@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -7,6 +9,7 @@ import 'package:yekloveguard/model/yekmodel.dart';
 class YekController extends GetxController {
   final TextEditingController lover1Controller = TextEditingController();
   final TextEditingController lover2Controller = TextEditingController();
+  final TextEditingController searchcontroller = TextEditingController();
   var lover1 = "".obs;
   var lover2 = "".obs;
   var result = "".obs;
@@ -21,6 +24,10 @@ class YekController extends GetxController {
   List<YekModel?> get allyekdata => _allyekdata;
   List<String> surnames = [];
   Map<String, String> surnameToYek = {};
+  List<String> _selectedsurnames = [];
+  List<String> get selectedsurnames => _selectedsurnames;
+  List<String> _filteredsurnames = [];
+  List<String> get filteredsurnames => _filteredsurnames;
 
   bool? isDangerous;
 
@@ -32,8 +39,26 @@ class YekController extends GetxController {
 
   void setselectedyekindex({required int ind}) {
     _selectedyekIndex = ind;
+
+    _selectedsurnames = _allyekdata[ind]!.surnames;
+    _filteredsurnames = _allyekdata[ind]!.surnames;
     update();
     Get.toNamed('/clandetails');
+  }
+
+  void searchSurnames(String query) {
+    log("Query : "+query);
+    if (query.isEmpty) {
+      _filteredsurnames = _selectedsurnames;
+    } else {
+      _filteredsurnames = _selectedsurnames
+          .where(
+            (surname) => surname.toLowerCase().contains(query.toLowerCase()),
+          )
+          .toList();
+    }
+    update();
+    log("filtered List : "+_filteredsurnames.toString());
   }
 
   void setselectednavindex({required int index}) {
