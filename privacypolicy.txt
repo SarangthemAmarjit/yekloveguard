@@ -1,0 +1,76 @@
+Privacy Policy
+
+Yek Love Checker
+
+Effective Date: January 1, 2026
+
+Yek Love Checker (“we”, “our”, or “us”) values your privacy. This Privacy Policy explains how information is handled when you use our mobile application.
+
+1. App Purpose
+
+Yek Love Checker is a cultural compatibility app designed for the Meitei community of Manipur. It helps users verify Yek Salai lineage compatibility based on surnames, following traditional customs.
+
+The app is intended for informational and cultural awareness purposes only.
+
+2. Information You Enter
+
+The app allows users to enter surnames to check Yek compatibility.
+
+The entered surnames are processed locally within the app.
+
+The app uses a Yek Salai dataset stored inside the app (JSON file in assets).
+
+We do not store, collect, transmit, or save user-entered data.
+
+No personal data is sent to any server.
+
+All compatibility checking happens entirely offline within the app.
+
+3. Local Data Usage
+
+The Yek Salai lineage data used in the app is stored locally within the application package.
+The app does not download or update this data from external servers.
+
+4. Advertising
+
+Yek Love Checker uses Google AdMob to display advertisements.
+
+AdMob may automatically collect certain information, including:
+
+Device information
+
+Advertising ID
+
+App interaction data
+
+General location (country-level)
+
+This information is collected by Google to provide relevant ads and support free app usage.
+
+For more information, please review Google’s Privacy Policy:
+https://policies.google.com/privacy
+
+5. Data Sharing
+
+We do not sell, trade, or share personal user information.
+
+Any data collected for advertising purposes is handled by third-party advertising services such as Google AdMob according to their own privacy policies.
+
+6. Children’s Privacy
+
+Yek Love Checker is intended for general audiences.
+We do not knowingly collect personal information from children under 13 years of age.
+
+7. Cultural Disclaimer
+
+This app provides compatibility information based on traditional Yek Salai lineage understanding. It is not a legal, religious, or official authority decision. Users are encouraged to consult elders or community authorities for final decisions.
+
+8. Changes to This Privacy Policy
+
+We may update this Privacy Policy occasionally. Any changes will be reflected with a revised effective date.
+
+9. Contact Us
+
+If you have any questions about this Privacy Policy, please contact:
+
+Email: sarangthemamarjit123@gmail.com

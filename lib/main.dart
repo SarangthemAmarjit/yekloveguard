@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:yekloveguard/controller.dart/yek_controller.dart';
 import 'package:yekloveguard/pages/clandetailpage.dart';
 import 'package:yekloveguard/pages/mainnavigatpage.dart';
+import 'package:yekloveguard/pages/splash_screen.dart';
 
 // Import your page files here if they are in separate files
 // import 'home_page.dart';
 // import 'check_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(
+    widgetsBinding: WidgetsFlutterBinding.ensureInitialized(),
+  );
+  await MobileAds.instance.initialize();
+  Get.put(YekController());
+  Get.find<YekController>().loadAppOpenAd();
+  Get.find<YekController>().initializeBannerAd();
+
   runApp(const YekSalaiApp());
 }
 
@@ -32,7 +45,8 @@ class YekSalaiApp extends StatelessWidget {
       // Automatically switch based on system settings
       themeMode: ThemeMode.system,
       getPages: [
-        GetPage(name: '/', page: () => const MainNavigationShell()),
+        GetPage(name: '/', page: () => const SplashScreen()),
+        GetPage(name: '/navpage', page: () => const MainNavigationShell()),
         GetPage(name: '/clandetails', page: () => const ClanDetailPage()),
         // Define other routes here if needed
       ],

@@ -18,6 +18,7 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
   final Color primaryBlue = mutedGold;
   final Color backgroundDark = const Color(0xFF101622);
   final Color backgroundLight = const Color(0xFFF6F6F8);
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -43,37 +44,44 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
                 : SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        children: [
-                          Column(
-                            children: [
-                              const SizedBox(height: 32),
-                              _buildHeaderIcon(),
-                              const SizedBox(height: 24),
-                              _buildHeaderText(isDark),
-                              const SizedBox(height: 40),
-                              _buildSurnameInput(
-                                label: "Partner 1 Surname",
-                                hint: "Nangi yumnak Mensanlo",
-                                icon: Icons.person_outline,
-                                isDark: isDark,
-                                controller: ykcon.lover1Controller,
-                              ),
-                              _buildDivider(),
-                              _buildSurnameInput(
-                                label: "Partner 2 Surname",
-                                hint: "Noi Sai gi Yumnak Mensanlo",
-                                icon: Icons.person_3_rounded,
-                                isDark: isDark,
-                                controller: ykcon.lover2Controller,
-                              ),
-                              const SizedBox(height: 40),
-                              _buildInfoBox(isDark),
-                              const SizedBox(height: 40),
-                            ],
-                          ),
-                          _buildActionButton(ykcon),
-                        ],
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            Column(
+                              children: [
+                                const SizedBox(height: 32),
+                                _buildHeaderIcon(),
+                                const SizedBox(height: 24),
+                                _buildHeaderText(isDark),
+                                const SizedBox(height: 40),
+                                _buildSurnameInput(
+                                  label: "Partner 1 Surname",
+                                  hint: "Nangi yumnak Mensanlo",
+                                  icon: Icons.person_outline,
+                                  isDark: isDark,
+                                  controller: ykcon.lover1Controller,
+                                  validatorcontent:
+                                      "Please enter Partner 1's surname",
+                                ),
+                                _buildDivider(),
+                                _buildSurnameInput(
+                                  label: "Partner 2 Surname",
+                                  hint: "Noi Sai gi Yumnak Mensanlo",
+                                  icon: Icons.person_3_rounded,
+                                  isDark: isDark,
+                                  controller: ykcon.lover2Controller,
+                                  validatorcontent:
+                                      "Please enter Partner 2's surname",
+                                ),
+                                const SizedBox(height: 40),
+                                _buildInfoBox(isDark),
+                                const SizedBox(height: 40),
+                              ],
+                            ),
+                            _buildActionButton(ykcon),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -144,6 +152,7 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
     required IconData icon,
     required bool isDark,
     required TextEditingController controller,
+    required String validatorcontent,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,7 +168,13 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
             ),
           ),
         ),
-        TextField(
+        TextFormField(
+          validator: (valu) {
+            if (valu == null || valu.isEmpty) {
+              return validatorcontent;
+            }
+            return null;
+          },
           controller: controller,
           style: TextStyle(color: isDark ? Colors.white : Colors.black),
           decoration: InputDecoration(
@@ -243,7 +258,9 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
   Widget _buildActionButton(YekController ykcon) {
     return ElevatedButton(
       onPressed: () {
-        ykcon.checkCompatibility(context);
+        if (_formKey.currentState!.validate()) {
+          ykcon.checkCompatibility(context);
+        }
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: primaryBlue,

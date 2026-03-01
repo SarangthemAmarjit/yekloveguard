@@ -1,4 +1,4 @@
-package com.example.yekloveguard
+package com.yeklovechecker.app
 
 import io.flutter.embedding.android.FlutterActivity
 
