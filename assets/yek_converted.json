@@ -2,9 +2,8 @@
   {
     "yekname": "MANGANG",
     "meiteimayek": "ꯃꯉꯥꯡ",
-    "title" : "Supreme Lineage",
-    "description" : "The solar dynasty representing the head of the seven clans, originating from the Ningthouja era.",
-   
+    "title": "The Royal Dynasty",
+    "description": "The solar dynasty representing the head of the seven clans, originating from the Ningthouja era.",
     "surnames": [
       "AHEIBAM",
       "ACHURAM",
@@ -266,8 +265,8 @@
   {
     "yekname": "LUWANG",
     "meiteimayek": "ꯂꯨꯋꯥꯡ",
-    "title" : "Architects of Grace",
-    "description" : "Known for their wisdom and administrative excellence, fostering the growth of the community.",
+    "title": "Wisdom and Literature",
+    "description": "Known for their wisdom and administrative excellence, fostering the growth of the community.",
     "surnames": [
       "ABUJAM",
       "ACHOIBAM",
@@ -377,8 +376,8 @@
   {
     "yekname": "KHUMAN",
     "meiteimayek": "ꯈꯨꯃꯟ",
-    "title" : "The Night Watch",
-    "description" : "A powerful lineage associated with strength, bravery, and the mystical elements of the deep forest.",
+    "title": "The Night Watch",
+    "description": "A powerful lineage associated with strength, bravery, and the mystical elements of the deep forest.",
     "surnames": [
       "AHONGSANGBAM",
       "AFRAM",
@@ -587,8 +586,8 @@
   {
     "yekname": "ANGOM",
     "meiteimayek": "ꯑꯉꯣꯝ",
-    "title":"Celestial Guardians",
-    "description":"The priestly and scholarly clan, maintaining the sacred traditions and celestial records.",
+    "title": "Noble Political Allies",
+    "description": "Traditionally the highest-ranking nobles, they served as crucial advisors and partners to the ruling Meitei monarchs.",
     "surnames": [
       "ACHOIBAM",
       "ACHUBAM",
@@ -695,12 +694,11 @@
       "YUMKHAIBAM"
     ]
   },
-
   {
     "yekname": "MOIRANG",
     "meiteimayek": "ꯃꯣꯢꯔꯥꯡ",
-    "title":"Spirits of the Water",
-    "description":"Descendants of the lake regions, celebrated for their artistry, music, and cultural vibrancy.",
+    "title": "Guardians of Legend",
+    "description": "Famed for epic folklore and the Khamba-Thoibi romance, they maintain a distinct and vibrant cultural heritage.",
     "surnames": [
       "ACHOM",
       "AHAIBAM",
@@ -712,6 +710,7 @@
       "CHAKPAKIYAM",
       "CHAKPATABAM",
       "ELANGBAM",
+      "HAOJAM",
       "HITAM",
       "IURENBAM",
       "KABAJAM",
@@ -720,6 +719,7 @@
       "KHOIBAM",
       "KHOINAIJAM",
       "KHOIPUDRABAM",
+      "KHOMDRAM",
       "KHONDRAM",
       "KHUIRAKPAM",
       "KOILENCHAM",
@@ -766,6 +766,7 @@
       "NAMUJAM",
       "NAYENGBAM",
       "NINGTHOUKHONGBAM",
+      "NINGTHOUKHONGJAM",
       "NGANGCHENGBAM",
       "NGANGCHONGBAM",
       "NGANGKHAM",
@@ -802,11 +803,11 @@
       "YAIKHOM"
     ]
   },
-    {
+  {
     "yekname": "KHABA NGANBA",
     "meiteimayek": "ꯈꯥꯕꯥ ꯉꯥꯟꯕꯥ",
-    "title":"Foundations of Earth",
-    "description":"The resilient protectors of the land, known for their agricultural mastery and grounding force.",
+    "title": "The Ancient Union",
+    "description": "Formed from two historic lineages, they once held significant power over the sacred Kangla before the merger.",
     "surnames": [
       "AHEIBAM",
       "CHENGLEIJAM",
@@ -856,8 +857,8 @@
   {
     "yekname": "SALANG LEISANGTHEM",
     "meiteimayek": "ꯁꯥꯂꯥꯡ ꯂꯩꯁꯥꯡꯊꯦꯝ",
-    "title":"Harmonizers",
-    "description":"The weavers of the social fabric, excelling in trade, diplomacy, and communal unity.",
+    "title": "Holders of Antiquity",
+    "description": "Originally known as the Chenglei, they represent the vast sky and preserve the valley's oldest ancestral roots.",
     "surnames": [
       "AMOM",
       "AMOMAHEIBAM",

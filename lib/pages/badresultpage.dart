@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:yekloveguard/controller.dart/yek_controller.dart';
 
 class IncompatibleResultPage extends StatefulWidget {
-  IncompatibleResultPage({super.key});
+  const IncompatibleResultPage({super.key});
 
   @override
   State<IncompatibleResultPage> createState() => _IncompatibleResultPageState();
@@ -162,15 +162,6 @@ class _IncompatibleResultPageState extends State<IncompatibleResultPage> {
           ),
         ),
         const SizedBox(height: 24),
-        TextButton.icon(
-          onPressed: () {},
-          icon: const Text(
-            'Learn more about bloodlines',
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
-          ),
-          label: const Icon(Icons.open_in_new, size: 16),
-          style: TextButton.styleFrom(foregroundColor: primaryBlue),
-        ),
       ],
     );
   }
@@ -194,52 +185,6 @@ class _IncompatibleResultPageState extends State<IncompatibleResultPage> {
           elevation: 4,
         ),
       ),
-    );
-  }
-
-  Widget _buildBottomNav(bool isDark) {
-    return Container(
-      decoration: BoxDecoration(
-        color: isDark
-            ? backgroundDark.withOpacity(0.8)
-            : Colors.white.withOpacity(0.8),
-        border: Border(
-          top: BorderSide(
-            color: isDark ? Colors.white10 : Colors.grey.shade200,
-          ),
-        ),
-      ),
-      padding: const EdgeInsets.only(top: 12, bottom: 32),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _navItem(Icons.search, 'Check', true, isDark),
-          _navItem(Icons.history, 'History', false, isDark),
-          _navItem(Icons.info_outline, 'Clan Info', false, isDark),
-        ],
-      ),
-    );
-  }
-
-  Widget _navItem(IconData icon, String label, bool isActive, bool isDark) {
-    Color color = isActive
-        ? primaryBlue
-        : (isDark ? Colors.white38 : Colors.grey);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, color: color, size: 26),
-        const SizedBox(height: 4),
-        Text(
-          label.toUpperCase(),
-          style: TextStyle(
-            color: color,
-            fontSize: 10,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 0.5,
-          ),
-        ),
-      ],
     );
   }
 }

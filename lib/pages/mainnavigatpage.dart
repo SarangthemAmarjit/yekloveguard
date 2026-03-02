@@ -47,29 +47,6 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
                 fontSize: 20,
               ),
             ),
-            actions: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.notifications_none, color: charcoal),
-                    onPressed: () {},
-                  ),
-                  Positioned(
-                    right: 12,
-                    top: 12,
-                    child: Container(
-                      height: 6,
-                      width: 6,
-                      decoration: const BoxDecoration(
-                        color: mutedGold,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
           ),
           // IndexedStack keeps the state of pages alive
           body: IndexedStack(index: ykcon.selectedIndex, children: _pages),
@@ -88,7 +65,13 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
               children: [
                 _buildNavItem(Icons.home, "Home", 0, mutedGold, ykcon),
                 _buildNavItem(Icons.favorite, "Check", 1, mutedGold, ykcon),
-                _buildNavItem(Icons.groups_sharp, "Clans", 2, mutedGold, ykcon),
+                _buildNavItem(
+                  Icons.groups_sharp,
+                  "Yek Salai",
+                  2,
+                  mutedGold,
+                  ykcon,
+                ),
                 _buildNavItem(
                   Icons.perm_device_information,
                   "About",

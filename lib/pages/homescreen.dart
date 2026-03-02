@@ -64,12 +64,13 @@ class HomeScreen extends StatelessWidget {
 
                   _buildHeroHeader(),
                   _buildVerificationCard(),
+                  SizedBox(height: 24),
                   if (yekController.isBannerLoaded)
                     Container(
                       alignment: Alignment.center,
-                      child: AdWidget(ad: yekController.myBanner!),
                       width: yekController.myBanner!.size.width.toDouble(),
                       height: yekController.myBanner!.size.height.toDouble(),
+                      child: AdWidget(ad: yekController.myBanner!),
                     ),
                   // _buildGridSections(),
                   // _buildRecentActivity(),

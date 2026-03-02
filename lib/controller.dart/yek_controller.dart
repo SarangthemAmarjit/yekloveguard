@@ -217,9 +217,11 @@ class YekController extends GetxController {
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
           _interstitialAd = ad;
+          update();
         },
         onAdFailedToLoad: (error) {
           _interstitialAd = null;
+          update();
         },
       ),
     );
@@ -251,20 +253,27 @@ class YekController extends GetxController {
       );
       return;
     }
-
-    if (yek1 == yek2) {
-      isDangerous = true;
-    } else {
-      isDangerous = false;
-    }
-
-    update();
-
     // 👇 SHOW INTERSTITIAL HERE
     if (_interstitialAd != null) {
-      _interstitialAd!.show();
-      _interstitialAd = null;
-      loadInterstitialAd(); // preload next ad
+      _interstitialAd!.show().whenComplete(() {
+        _interstitialAd = null;
+        loadInterstitialAd(); // preload next ad
+        Future.delayed(const Duration(seconds: 3), () {
+          // Delay to ensure ad has fully closed before showing result
+          if (yek1 == yek2) {
+            isDangerous = true;
+            result.value =
+                "Incompatible! Both partners belong to the same YEK: $yek1.";
+          } else {
+            isDangerous = false;
+            result.value =
+                "Compatible! Partner 1 belongs to $yek1 and Partner 2 belongs to $yek2.";
+          }
+          update();
+        });
+      });
+    } else {
+      log("Interstitial ad not ready");
     }
   }
 

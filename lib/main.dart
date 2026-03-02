@@ -21,6 +21,7 @@ void main() async {
   Get.put(YekController());
   Get.find<YekController>().loadAppOpenAd();
   Get.find<YekController>().initializeBannerAd();
+  Get.find<YekController>().loadInterstitialAd(); // 👈 CALL HERE
 
   runApp(const YekSalaiApp());
 }

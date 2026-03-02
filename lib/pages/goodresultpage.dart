@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yekloveguard/constant/constantcol.dart';
 import 'package:yekloveguard/controller.dart/yek_controller.dart';
 
 class CompatibleResultPage extends StatefulWidget {
@@ -217,7 +218,7 @@ class _CompatibleResultPageState extends State<CompatibleResultPage> {
             icon: const Icon(Icons.refresh),
             label: const Text('Check Another Pair'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: primaryBlue,
+              backgroundColor: mutedGold,
               foregroundColor: Colors.white,
               minimumSize: const Size(double.infinity, 60),
               shape: RoundedRectangleBorder(
@@ -232,25 +233,7 @@ class _CompatibleResultPageState extends State<CompatibleResultPage> {
             ),
           ),
           const SizedBox(height: 12),
-          TextButton.icon(
-            onPressed: () {},
-            icon: const Icon(Icons.bookmark_border),
-            label: const Text('Save to History'),
-            style: TextButton.styleFrom(
-              backgroundColor: isDark
-                  ? Colors.white10
-                  : Colors.black.withOpacity(0.05),
-              foregroundColor: isDark ? Colors.white : Colors.black,
-              minimumSize: const Size(double.infinity, 60),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              textStyle: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-          ),
+
         ],
       ),
     );
