@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     final YekController yekController = Get.find<YekController>();
     return GetBuilder<YekController>(
       builder: (_) {
@@ -25,11 +26,14 @@ class HomeScreen extends StatelessWidget {
                 image: DecorationImage(
                   image: AssetImage('assets/images/bg.jpg'),
                   fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    isDark ? Colors.black.withOpacity(0.2) : Colors.transparent,
+                    BlendMode.darken,
+                  ),
                 ),
               ),
             ),
             SingleChildScrollView(
-              padding: const EdgeInsets.only(bottom: 100),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -64,14 +68,22 @@ class HomeScreen extends StatelessWidget {
 
                   _buildHeroHeader(),
                   _buildVerificationCard(),
-                  SizedBox(height: 24),
-                  if (yekController.isBannerLoaded)
-                    Container(
-                      alignment: Alignment.center,
-                      width: yekController.myBanner!.size.width.toDouble(),
-                      height: yekController.myBanner!.size.height.toDouble(),
-                      child: AdWidget(ad: yekController.myBanner!),
-                    ),
+                  SizedBox(height: 20),
+                  yekController.isBannerLoaded
+                      ? Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            padding: EdgeInsets.only(bottom: 10),
+
+                            height: yekController.myBanner!.size.height
+                                .toDouble(),
+                            width: yekController.myBanner!.size.width
+                                .toDouble(),
+                            child: AdWidget(ad: yekController.myBanner!),
+                          ),
+                        )
+                      : SizedBox(),
+
                   // _buildGridSections(),
                   // _buildRecentActivity(),
                 ],
@@ -247,257 +259,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildGridSections() {
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'DISCOVER & LEARN',
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 2,
-              color: charcoal,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              _gridItem(Icons.auto_stories, 'Traditions', '7-generation rule'),
-              const SizedBox(width: 16),
-              _gridItem(
-                Icons.history_edu,
-                'Records',
-                '500 years of history',
-                isItalic: true,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _gridItem(
-    IconData icon,
-    String title,
-    String sub, {
-    bool isItalic = false,
-  }) {
-    return Expanded(
-      child: Container(
-        height: 140,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: borderGold),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(icon, color: mutedGold, size: 28),
-            const Spacer(),
-            Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              sub,
-              style: TextStyle(
-                fontSize: 11,
-                color: Colors.black45,
-                fontStyle: isItalic ? FontStyle.italic : FontStyle.normal,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRecentActivity() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'RECENT ACTIVITY',
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2,
-                ),
-              ),
-              Text(
-                'VIEW ALL',
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                  color: mutedGold,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          _activityTile(
-            'Kumar & Sharma',
-            '2 hours ago',
-            'Compatible',
-            Colors.greenAccent,
-            Icons.check_circle,
-          ),
-          const SizedBox(height: 12),
-          _activityTile(
-            'Patel & Negi',
-            'Yesterday',
-            'Caution',
-            Colors.amber,
-            Icons.error_outline,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _activityTile(
-    String names,
-    String time,
-    String status,
-    Color color,
-    IconData icon,
-  ) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: borderGold),
-      ),
-      child: Row(
-        children: [
-          // Overlapping Avatars
-          SizedBox(
-            width: 55,
-            child: Stack(
-              children: [
-                CircleAvatar(
-                  radius: 18,
-                  backgroundColor: charcoal,
-                  child: Text(
-                    names[0],
-                    style: GoogleFonts.playfairDisplay(
-                      fontSize: 10,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 15,
-                  child: CircleAvatar(
-                    radius: 18,
-                    backgroundColor: cream,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: borderGold),
-                      ),
-                      child: Center(
-                        child: Text(
-                          names.split(' & ')[1][0],
-                          style: GoogleFonts.playfairDisplay(fontSize: 10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  names,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
-                ),
-                Text(
-                  time.toUpperCase(),
-                  style: const TextStyle(fontSize: 9, color: Colors.black26),
-                ),
-              ],
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                status.toUpperCase(),
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                  color: color,
-                ),
-              ),
-              Icon(icon, color: color, size: 18),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBottomNav() {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(color: borderGold)),
-      ),
-      padding: const EdgeInsets.only(top: 12, bottom: 24),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _navItem(Icons.home, 'Home', isActive: true),
-          _navItem(Icons.manage_search, 'Check'),
-          _navItem(Icons.history, 'History'),
-          _navItem(Icons.hub, 'Clans'),
-          _navItem(Icons.person, 'Profile'),
-        ],
-      ),
-    );
-  }
-
-  Widget _navItem(IconData icon, String label, {bool isActive = false}) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, color: isActive ? mutedGold : Colors.black26, size: 26),
-        const SizedBox(height: 4),
-        Text(
-          label.toUpperCase(),
-          style: TextStyle(
-            fontSize: 9,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1,
-            color: isActive ? mutedGold : Colors.black26,
-          ),
-        ),
-      ],
     );
   }
 }

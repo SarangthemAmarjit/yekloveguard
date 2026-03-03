@@ -14,26 +14,27 @@ class CompatibilityCheckPage extends StatefulWidget {
 }
 
 class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
-  // Theme Colors
   final Color primaryBlue = mutedGold;
-  final Color backgroundDark = const Color(0xFF101622);
-  final Color backgroundLight = const Color(0xFFF6F6F8);
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     final YekController ykcon = Get.put(YekController());
 
     return GetBuilder<YekController>(
       builder: (_) {
         return Container(
           height: MediaQuery.of(context).size.height,
-
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/bg.jpg'),
+              image: const AssetImage('assets/images/bg.jpg'),
               fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                isDark ? Colors.black.withOpacity(0.5) : Colors.transparent,
+                BlendMode.darken,
+              ),
             ),
           ),
           child: SafeArea(
@@ -48,38 +49,35 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            Column(
-                              children: [
-                                const SizedBox(height: 32),
-                                _buildHeaderIcon(),
-                                const SizedBox(height: 24),
-                                _buildHeaderText(isDark),
-                                const SizedBox(height: 40),
-                                _buildSurnameInput(
-                                  label: "Partner 1 Surname",
-                                  hint: "Nangi yumnak Mensanlo",
-                                  icon: Icons.person_outline,
-                                  isDark: isDark,
-                                  controller: ykcon.lover1Controller,
-                                  validatorcontent:
-                                      "Please enter Partner 1's surname",
-                                ),
-                                _buildDivider(),
-                                _buildSurnameInput(
-                                  label: "Partner 2 Surname",
-                                  hint: "Noi Sai gi Yumnak Mensanlo",
-                                  icon: Icons.person_3_rounded,
-                                  isDark: isDark,
-                                  controller: ykcon.lover2Controller,
-                                  validatorcontent:
-                                      "Please enter Partner 2's surname",
-                                ),
-                                const SizedBox(height: 40),
-                                _buildInfoBox(isDark),
-                                const SizedBox(height: 40),
-                              ],
+                            const SizedBox(height: 32),
+                            _buildHeaderIcon(isDark),
+                            const SizedBox(height: 24),
+                            _buildHeaderText(isDark),
+                            const SizedBox(height: 40),
+                            _buildSurnameInput(
+                              label: "Partner 1 Surname",
+                              hint: "Nangi yumnak Mensanlo",
+                              icon: Icons.person_outline,
+                              isDark: isDark,
+                              controller: ykcon.lover1Controller,
+                              validatorcontent:
+                                  "Please enter Partner 1's surname",
                             ),
-                            _buildActionButton(ykcon),
+                            _buildDivider(isDark),
+                            _buildSurnameInput(
+                              label: "Partner 2 Surname",
+                              hint: "Noi Sai gi Yumnak Mensanlo",
+                              icon: Icons.person_3_rounded,
+                              isDark: isDark,
+                              controller: ykcon.lover2Controller,
+                              validatorcontent:
+                                  "Please enter Partner 2's surname",
+                            ),
+                            const SizedBox(height: 40),
+                            _buildInfoBox(isDark),
+                            const SizedBox(height: 40),
+                            _buildActionButton(ykcon, isDark),
+                            const SizedBox(height: 40),
                           ],
                         ),
                       ),
@@ -91,14 +89,14 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
     );
   }
 
-  Widget _buildHeaderIcon() {
+  Widget _buildHeaderIcon(bool isDark) {
     return Container(
       width: 80,
       height: 80,
       decoration: BoxDecoration(
-        color: primaryBlue.withOpacity(0.1),
+        color: primaryBlue.withOpacity(isDark ? 0.15 : 0.1),
         shape: BoxShape.circle,
-        border: Border.all(color: primaryBlue.withOpacity(0.2)),
+        border: Border.all(color: primaryBlue.withOpacity(isDark ? 0.4 : 0.2)),
       ),
       child: Icon(Icons.family_restroom, color: primaryBlue, size: 40),
     );
@@ -122,7 +120,7 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
             style: GoogleFonts.manrope(
               fontSize: 14,
               height: 1.5,
-              color: isDark ? Colors.white60 : Colors.black54,
+              color: isDark ? Colors.white70 : Colors.black54,
             ),
             children: [
               const TextSpan(
@@ -169,26 +167,26 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
           ),
         ),
         TextFormField(
-          validator: (valu) {
-            if (valu == null || valu.isEmpty) {
+          controller: controller,
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) {
               return validatorcontent;
             }
             return null;
           },
-          controller: controller,
           style: TextStyle(color: isDark ? Colors.white : Colors.black),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: const TextStyle(color: Colors.grey),
             prefixIcon: Icon(icon, color: Colors.grey),
             filled: true,
-            fillColor: isDark ? Colors.white.withOpacity(0.05) : Colors.white,
+            fillColor: isDark ? const Color(0xFF1E293B) : Colors.white,
             contentPadding: const EdgeInsets.symmetric(vertical: 18),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(
                 color: isDark
-                    ? Colors.white10
+                    ? Colors.white24
                     : const Color.fromARGB(255, 201, 200, 200),
               ),
             ),
@@ -202,22 +200,16 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
     );
   }
 
-  Widget _buildDivider() {
-    return Container(
+  Widget _buildDivider(bool isDark) {
+    return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Divider(color: Colors.grey.withOpacity(0.2)),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            color: Colors.transparent, // Parent background will show through
-            child: Icon(
-              Icons.favorite,
-              color: primaryBlue.withOpacity(0.4),
-              size: 20,
-            ),
+          Divider(
+            color: isDark ? Colors.white24 : Colors.grey.withOpacity(0.2),
           ),
+          Icon(Icons.favorite, color: primaryBlue.withOpacity(0.4), size: 20),
         ],
       ),
     );
@@ -227,12 +219,10 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isDark
-            ? Colors.white.withOpacity(0.05)
-            : const Color(0xFFF1F5F9),
+        color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: isDark ? Colors.white10 : Colors.grey.shade200,
+          color: isDark ? Colors.white24 : Colors.grey.shade200,
         ),
       ),
       child: Row(
@@ -245,7 +235,7 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
               'According to traditional norms, shared surnames or specific clan matches may require further investigation by elders.',
               style: GoogleFonts.manrope(
                 fontSize: 12,
-                color: isDark ? Colors.white60 : Colors.black54,
+                color: isDark ? Colors.white70 : Colors.black54,
                 height: 1.4,
               ),
             ),
@@ -255,11 +245,10 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
     );
   }
 
-  Widget _buildActionButton(YekController ykcon) {
+  Widget _buildActionButton(YekController ykcon, bool isDark) {
     return ElevatedButton(
       onPressed: () {
         if (_formKey.currentState!.validate()) {
-         
           ykcon.checkCompatibility(context);
         }
       },
@@ -268,7 +257,7 @@ class _CompatibilityCheckPageState extends State<CompatibilityCheckPage> {
         minimumSize: const Size(double.infinity, 60),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: 4,
-        shadowColor: primaryBlue.withOpacity(0.4),
+        shadowColor: isDark ? Colors.black : primaryBlue.withOpacity(0.4),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

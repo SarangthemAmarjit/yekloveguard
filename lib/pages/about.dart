@@ -395,7 +395,7 @@ class AboutScreen extends StatelessWidget {
                       '© 2026 YEK LOVE CHECKER • MEITEI HERITAGE FOUNDATION',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: primary.withOpacity(0.4),
+                        color: const Color.fromARGB(255, 0, 24, 44).withOpacity(0.4),
                         fontSize: 10,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 2.0,
