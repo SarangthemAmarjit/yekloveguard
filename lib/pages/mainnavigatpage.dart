@@ -23,21 +23,19 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
     const ClanSectionPage(), // Placeholder for Page 2
     const AboutScreen(), // Placeholder for Page 3
   ];
-
   @override
   Widget build(BuildContext context) {
-    final YekController ykcon = Get.put(YekController());
+    final YekController ykcon = Get.find<YekController>();
     bool isDark = Theme.of(context).brightness == Brightness.dark;
-    const Color primaryBlue = Color(0xFF135BEC);
     const Color mutedGold = Color(0xFFC5A059);
 
     return GetBuilder<YekController>(
       builder: (_) {
         return Scaffold(
+          extendBody: true, // ✅ Important for edge-to-edge
           appBar: AppBar(
             backgroundColor: cream.withOpacity(0.8),
             elevation: 0,
-
             centerTitle: true,
             title: Text(
               'Yek Love Checker',
@@ -48,8 +46,13 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
               ),
             ),
           ),
-          // IndexedStack keeps the state of pages alive
-          body: IndexedStack(index: ykcon.selectedIndex, children: _pages),
+
+          // ✅ Prevent content going under system bars
+          body: SafeArea(
+            top: false, // AppBar already handles top
+            child: IndexedStack(index: ykcon.selectedIndex, children: _pages),
+          ),
+
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
               color: isDark ? const Color(0xFF101622) : Colors.white,
@@ -59,7 +62,11 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
                 ),
               ),
             ),
-            padding: const EdgeInsets.only(top: 10, bottom: 25),
+            padding: EdgeInsets.only(
+              top: 10,
+              bottom: 10 + MediaQuery.of(context).padding.bottom,
+              // ✅ Handles gesture navigation bar
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

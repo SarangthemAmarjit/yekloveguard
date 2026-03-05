@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,20 +9,27 @@ import 'package:yekloveguard/pages/clandetailpage.dart';
 import 'package:yekloveguard/pages/mainnavigatpage.dart';
 import 'package:yekloveguard/pages/splash_screen.dart';
 
-// Import your page files here if they are in separate files
-// import 'home_page.dart';
-// import 'check_page.dart';
-
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(
-    widgetsBinding: WidgetsFlutterBinding.ensureInitialized(),
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  // ✅ Enable edge-to-edge (Android 15 safe)
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+  // ✅ Make system bars transparent
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
+    ),
   );
+
   await MobileAds.instance.initialize();
+
   Get.put(YekController());
   Get.find<YekController>().loadAppOpenAd();
   Get.find<YekController>().initializeBannerAd();
-  Get.find<YekController>().loadInterstitialAd(); // 👈 CALL HERE
+  Get.find<YekController>().loadInterstitialAd();
 
   runApp(const YekSalaiApp());
 }
